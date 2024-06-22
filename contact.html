@@ -7,6 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" href="title.jpg" type="image/png">
 	<title>Contact Us</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="vendors/linericon/style.css">
@@ -96,21 +101,25 @@
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <form class="row contact_form" action="" id="submit-form" novalidate="novalidate">
+                    <form class="row contact_form" action="" id="submit-form"  onsubmit="return validateForm()">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" onkeyup="validateName()">
+                                <span id="name-error" class="error"></span>
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" onkeyup="validateEmail()">
+                                <span id="email-error" class="error"></span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter Subject">
+                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter Subject" onkeyup="validateSubject()">
+                                <span id="subject-error" class="error"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Enter Message"></textarea>
+                                <textarea class="form-control" name="m  essage" id="message" rows="1" placeholder="Enter Message" onkeyup="validateMessage()"></textarea>
+                                <span id="message-error" class="error"></span>
                             </div>
                         </div>
                         <div class="col-md-12 text-right">
@@ -119,6 +128,7 @@
                             </button>
                         </div>
                     </form>
+                    
                 </div>
             </div>
             <div id="mapBox" class="mapBox" 
@@ -182,24 +192,44 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="js/gmaps.min.js"></script>
     <script src="js/theme.js"></script>
     <script>
-        $("#submit-form").submit((e)=>{
-            e.preventDefault()
-            $.ajax({
-                url:"https://script.google.com/macros/s/AKfycbziBV41omaurJaenqQ6ifVoelEc1HMXZTt4f30I44vUg5h9fk3iYbKyB26RneckAuymrg/exec",
-                data:$("#submit-form").serialize(),
-                method:"post",
-                success:function (response){
-                    alert("Form submitted successfully")
-                    window.location.reload()
-                    // window.location.href=""
-                },
-                error:function (err){
-                    alert("Something Error")
+        // $("#submit-form").submit((e)=>{
+        //     e.preventDefault()
+        //     $.ajax({
+        //         url:"https://script.google.com/macros/s/AKfycbziBV41omaurJaenqQ6ifVoelEc1HMXZTt4f30I44vUg5h9fk3iYbKyB26RneckAuymrg/exec",
+        //         data:$("#submit-form").serialize(),
+        //         method:"post",
+        //         success:function (response){
+        //             alert("Form submitted successfully")
+        //             window.location.reload()
+        //             // window.location.href=""
+        //         },
+        //         error:function (err){
+        //             alert("Something Error")
     
+        //         }
+        //     })
+        // })
+        $(document).ready(function () {
+          $("#submit-form").submit(function (e) {
+            e.preventDefault();
+            if (validateForm()) {
+              $.ajax({
+                url: "https://script.google.com/macros/s/AKfycbypVBKdNCGaHwo5hCEF74LsnGsqCNwAENEtgkqmzwZ1IT0zpGbauBBsuj-mHah5Sih-hQ/exec",
+                data: $("#submit-form").serialize(),
+                method: "post",
+                success: function (response) {
+                  alert("Form submitted successfully");
+                  window.location.reload();
+                },
+                error: function (err) {
+                  alert("Something went wrong");
                 }
-            })
-        })
+              });
+            }
+          });
+        });
     </script>
+    <script src="scripts.js"></script>
 </body>
 
 </html>
